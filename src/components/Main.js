@@ -38,7 +38,8 @@ function Main(props) {
     <section className="profile">
       <button onClick={props.onEditAvatar} className="profile__button-edit-avatar">
         {/* <img src={avatar} alt="Жак-Ив Кусто" className="profile__avatar"/> */}
-        <img style={{ backgroundImage: `url(${userAvatar})` }} alt="Жак-Ив Кусто" className="profile__avatar"/>
+        <img src={userAvatar} alt="Жак-Ив Кусто" className="profile__avatar"/>
+        {/* <img style={{ backgroundImage: `url(${userAvatar})` }} alt="Жак-Ив Кусто" className="profile__avatar"/> */}
       </button>
       <div className="profile__about">
         {/* <h1 className="profile__title">Жак-Ив Кусто</h1> */}
@@ -51,50 +52,20 @@ function Main(props) {
     </section>
     <section className="elements">
     </section>
-    {cards.map((card) =>
+    {cards.map((card) => (
 <Card
 card={card}
 currentUser={userId}
-// onCardClick={props.onCardClick}
 key={card._id}
+onCardClick={props.onCardClick}
 />
-
+    )
 )}
   </main>
 )   
 }
 
 export default Main;
-
-
-
-
-
-
-
-
-
-// function create(props) {
-//   console.log('r');
-//   return (
-//   <>
-//     <h1>{props.a}</h1>
-//     <p>{props.b}</p>
-  
-//   </>
-//   )
-// }
-
-// create("Вася", "Петя")
-
-
-// function create(rr) {
-//   console.log(rr);
-// }
-// create("Вася")
-
-
-
 
 
 {/* <div className="element">

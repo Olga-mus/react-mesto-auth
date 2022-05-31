@@ -24,10 +24,7 @@ function PopupWithForm(props) {
             <button id={`submit__${props.name}`} type="submit" className="popup__save-button">{props.button}</button>
           </form>
         </div>
-      </div>
-
-
-        
+      </div>  
     )   
 }
 

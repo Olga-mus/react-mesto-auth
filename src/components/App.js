@@ -5,6 +5,7 @@ import React from "react";
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import ImagePopup from "./ImagePopup";
 import PopupWithForm from './PopupWithForm';
 import Card from './Card';
 import {useState} from "react";
@@ -15,15 +16,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-
-
-
-
-
-
-
-
-
+  const [selectedCard, setSelectedCard] = useState(null);
 
 const handleEditAvatarClick = () => {
   setIsEditProfilePopupOpen(true); //переменные состояния, отвечающие за видимость
@@ -37,12 +30,18 @@ const handleAddPlaceClick = () =>{
   setIsAddPlacePopupOpen(true)//переменные состояния, отвечающие за видимость
 }
 
+const handleCardClick = (card) => {
+  setSelectedCard(card)
+}
+
+
 
 //закрытие попапов
 const closeAllPopups = () => {
   setIsEditProfilePopupOpen(false);
   setIsEditAvatarPopupOpen(false);
   setIsAddPlacePopupOpen(false);
+  setSelectedCard(null);
 }
 
   return (
@@ -54,8 +53,7 @@ const closeAllPopups = () => {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick} 
-     
-
+        onCardClick={handleCardClick}
         />
 
       <Footer />
@@ -67,7 +65,7 @@ const closeAllPopups = () => {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
         >
-          <fieldset className="popup_profile">
+          <fieldset className="popup__profile">
 
           <label className="popup__field">
              <input id="firstname" type="text" name="firstname" placeholder="Введите имя" className="popup__input popup__input_type_name" required minLength="2" maxLength="40" />
@@ -105,7 +103,7 @@ const closeAllPopups = () => {
         name = "delete-confirm"
         button = "Да"
         onClose={closeAllPopups}
-        ></PopupWithForm>
+        ></PopupWithForm> 
     
       <PopupWithForm 
        title = "Обновить аватар"
@@ -123,8 +121,11 @@ const closeAllPopups = () => {
     
       </PopupWithForm>
 
-      <Card/>
-
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      >
+      </ImagePopup>
     </div>
 
   ); 
