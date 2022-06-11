@@ -18,6 +18,7 @@ function PopupWithForm(props) {
         {/* <form id="form__edit-profile" className="popup__form" name="edit_profile" noValidate> */}
         {/* <form id={`form__${props.name}`} className="popup__form" name="edit_profile" noValidate> */}
         <form
+          onSubmit={props.onSubmit}
           id={`form__${props.name}`}
           className="popup__form"
           name={props.name}
@@ -35,6 +36,7 @@ function PopupWithForm(props) {
             id={`submit__${props.name}`}
             type="submit"
             className="popup__save-button"
+            onClick={props.onSubmit}
           >
             {props.button}
           </button>

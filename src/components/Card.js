@@ -1,8 +1,38 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ onCardClick, card }) {
+function Card({ onCardClick, onCardLike, onCardDelete, card }) {
+  const currentUser = React.useContext(CurrentUserContext);
+
+  // Определяем, являемся ли мы владельцем текущей карточки
+const isOwn = card.owner._id === currentUser._id;
+
+// Создаём переменную, которую после зададим в `className` для кнопки удаления
+const cardDeleteButtonClassName = (
+  `element__button-delete ${isOwn ? 'element__button-delete_visible' : 'element__button-delete_hidden'}`
+);
+
+// Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+// Создаём переменную, которую после зададим в `className` для кнопки лайка
+const cardLikeButtonClassName = (
+  `element__button-like ${isLiked ? 'element__like_active' : 'element__button-like'}`
+);
+
+
+
+
   function handleClick() {
     onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card)
   }
 
   return (
@@ -20,8 +50,10 @@ function Card({ onCardClick, card }) {
             <h2 className="element__title">{card.name}</h2>
           </figcaption>
         </figure>
-        <button className="element__button-like"></button>
-        <button className="element__button-delete">
+        {/* <button className="element__button-like"></button> */}
+        <button onClick={handleLikeClick} className={cardLikeButtonClassName}></button>
+        {/* <button className="element__button-delete"> */}
+        <button onClick={handleDeleteClick} className={cardDeleteButtonClassName}>
           {/* <img className="element__delete" src="<%=require('./images/element-delete.svg')%>" alt="Удалить"/> */}
           {/* <img className="element__delete" style={{ backgroundImage: `url(${card})` }}alt="Удалить"/> */}
         </button>

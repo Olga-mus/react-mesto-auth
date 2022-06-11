@@ -1,32 +1,41 @@
 import React from "react";
-import avatar from "../images/profile-avatar.jpg";
-import { api } from "../utils/Api";
-import { useState } from "react";
+// import avatar from "../images/profile-avatar.jpg";
+// import { api } from "../utils/Api";
+// import { useState } from "react";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-  const [cards, setCards] = useState([]);
-  const [userId, setUserId] = useState("");
+  const userContext = React.useContext(CurrentUserContext);
+  // const currentUser = React.useContext(CurrentUserContext);
 
-  React.useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
+  // const [userName, setUserName] = useState("");
+  // const [userDescription, setUserDescription] = useState("");
+  // const [userAvatar, setUserAvatar] = useState("");
+  // const [cards, setCards] = useState([]);
+  // const [userId, setUserId] = useState("");
 
-      .then(([profile, cards]) => {
-        setUserName(profile.name);
-        setUserDescription(profile.about);
-        setUserAvatar(profile.avatar);
-        setCards(cards);
-        setUserId(profile._id);
-      })
+  // React.useEffect(() => {
+  //   Promise.all([api.getProfile(), api.getInitialCards()])
 
-      .catch((err) => {
-        console.log("Error", err);
-        // тут ловим ошибку
-      });
-  });
+  //     .then(([profile, cards]) => {
+  //       setUserName(profile.name);
+  //       setUserDescription(profile.about);
+  //       setUserAvatar(profile.avatar);
+  //       setCards(cards);
+  //       setUserId(profile._id);
+  //     })
+
+  //     .catch((err) => {
+  //       console.log("Error", err);
+  //       // тут ловим ошибку
+  //     });
+  // });
+
+ 
+
+
+
 
   return (
     <main>
@@ -37,7 +46,8 @@ function Main(props) {
         >
           {/* <img src={avatar} alt="Жак-Ив Кусто" className="profile__avatar"/> */}
           <img
-            src={userAvatar}
+            // src={userAvatar}
+            src={userContext.avatar}
             alt="Жак-Ив Кусто"
             className="profile__avatar"
           />
@@ -45,23 +55,26 @@ function Main(props) {
         </button>
         <div className="profile__about">
           {/* <h1 className="profile__title">Жак-Ив Кусто</h1> */}
-          <h1 className="profile__title">{userName}</h1>
+          {/* <h1 className="profile__title">{userName}</h1> */}
+          <h1 className="profile__title">{userContext.name}</h1>
           <button
             onClick={props.onEditProfile}
             className="profile__open-window"
           ></button>
           {/* <p className="profile__subtitle">Исследователь океана</p> */}
-          <p className="profile__subtitle">{userDescription}</p>
+          {/* <p className="profile__subtitle">{userDescription}</p> */}
+          <p className="profile__subtitle">{userContext.about}</p>
         </div>
         <button onClick={props.onAddPlace} className="profile__button"></button>
       </section>
       <section className="elements">
-        {cards.map((card) => (
+        {props.cards.map((card) => (
           <Card
             card={card}
-            currentUser={userId}
             key={card._id}
             onCardClick={props.onCardClick}
+            onCardLike={props.onCardLike}
+            onCardDelete={props.onCardDelete}
           />
         ))}
       </section>
@@ -87,3 +100,4 @@ export default Main;
 <span className="element__like-count"></span>
 </div> */
 }
+

@@ -84,7 +84,16 @@ export default class Api {
     })
     .then(this._checkResponse)
  }
+
+ changeLikeCardStatus(id, isLiked) {
+  if(isLiked){
+    return this.addLike(id)
+  } else {
+    return this.deleteLike(id)
+  }
 }
+}
+
 
 
 export const api = new Api({
