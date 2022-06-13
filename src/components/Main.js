@@ -1,14 +1,12 @@
 import React from "react";
-// import avatar from "../images/profile-avatar.jpg";
-// import { api } from "../utils/Api";
-// import { useState } from "react";
+import avatar from "../images/profile-avatar.jpg";
+import { api } from "../utils/Api";
+import { useState } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
   const userContext = React.useContext(CurrentUserContext);
-  // const currentUser = React.useContext(CurrentUserContext);
-
   // const [userName, setUserName] = useState("");
   // const [userDescription, setUserDescription] = useState("");
   // const [userAvatar, setUserAvatar] = useState("");
@@ -31,11 +29,6 @@ function Main(props) {
   //       // тут ловим ошибку
   //     });
   // });
-
- 
-
-
-
 
   return (
     <main>
@@ -71,6 +64,7 @@ function Main(props) {
         {props.cards.map((card) => (
           <Card
             card={card}
+            // currentUser={userId}
             key={card._id}
             onCardClick={props.onCardClick}
             onCardLike={props.onCardLike}
@@ -100,4 +94,3 @@ export default Main;
 <span className="element__like-count"></span>
 </div> */
 }
-

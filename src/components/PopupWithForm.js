@@ -36,7 +36,6 @@ function PopupWithForm(props) {
             id={`submit__${props.name}`}
             type="submit"
             className="popup__save-button"
-            onClick={props.onSubmit}
           >
             {props.button}
           </button>

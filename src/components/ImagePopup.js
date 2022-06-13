@@ -1,5 +1,5 @@
 import React from "react";
-// import logo from "../images/header-logo.svg";
+import logo from "../images/header-logo.svg";
 
 function ImagePopup(props) {
   const popupVisible = props.card ? "popup_opened" : "";
