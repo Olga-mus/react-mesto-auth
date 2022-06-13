@@ -52,7 +52,9 @@ function App() {
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    }).catch((err) => {
+        console.log(err);
+      });
   }
 
   const handleEditAvatarClick = () => {
@@ -71,7 +73,9 @@ function App() {
     api.deleteCard(card._id).then((res) => {
       console.log(res);
       setCards((prevState) => prevState.filter((c) => c._id !== card._id && c));
-    });
+    }).catch((err) => {
+        console.log(err);
+      });
   }
 
   const handleCardClick = (card) => {
@@ -264,5 +268,3 @@ function App() {
 }
 
 export default App;
-
-
