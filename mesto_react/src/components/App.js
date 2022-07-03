@@ -19,14 +19,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
 
-
-
-
-
-
-
-
-
 const handleEditAvatarClick = () => {
   setIsEditProfilePopupOpen(true); //переменные состояния, отвечающие за видимость
 }
@@ -146,6 +138,3 @@ const closeAllPopups = () => {
 }
 
 export default App;
-
-
-   
