@@ -35,8 +35,6 @@ const handleCardClick = (card) => {
   setSelectedCard(card)
 }
 
-
-
 //закрытие попапов
 const closeAllPopups = () => {
   setIsEditProfilePopupOpen(false);
