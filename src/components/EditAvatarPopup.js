@@ -16,7 +16,7 @@ function EditAvatarPopup(props) {
   return (
     <PopupWithForm
       title="Обновить аватар"
-      name="edit-profile"
+      name="edit-avatar"
       button="Сохранить"
       onSubmit={handleSubmit}
       // isOpen={isEditAvatarPopupOpen}
