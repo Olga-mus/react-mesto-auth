@@ -18,7 +18,6 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-
 const handleEditAvatarClick = () => {
   setIsEditProfilePopupOpen(true); //переменные состояния, отвечающие за видимость
 }
@@ -53,8 +52,6 @@ const closeAllPopups = () => {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
-
-
         />
 
       <Footer />
