@@ -39,7 +39,7 @@ function Login(props) {
               <span className="popup__title-error"></span>
             </label>
             </fieldset>
-          <button type="submit" className="popup__save-button popup__save-button_auth">Сохранить</button>
+          <button type="submit" className="popup__save-button popup__save-button_auth">Войти</button>
         </form>
   );
 }

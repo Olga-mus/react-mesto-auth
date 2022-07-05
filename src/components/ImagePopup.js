@@ -3,8 +3,8 @@ import logo from "../images/header-logo.svg";
 
 function ImagePopup(props) {
   const popupVisible = props.card ? "popup_opened" : "";
+  
   return (
-    // <div className="popup popup_image">
     <div className={`popup ${props.name} ${popupVisible}`}>
       <figure className="popup__info">
         <button

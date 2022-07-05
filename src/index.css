@@ -69,5 +69,8 @@
 @import url("./blocks/header/__content/header__content.css");
 @import url("./blocks/header/__menu-button/header__menu-button.css");
 @import url("./blocks/header/__menu-button/_close/header__menu-button_close.css");
+@import url("./blocks/header/__email/header__email.css");
+@import url("./blocks/header/__exit/header__exit.css");
+@import url("./blocks/header/__contact/header__contact.css");
 
 

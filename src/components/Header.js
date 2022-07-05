@@ -5,63 +5,27 @@ import logo from "../images/header-logo.svg";
 
 function Header(props) {
   const { onSignOut } = props;
-
   const { loggedIn, userEmail } = useContext(AuthContext);
-  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const headerLink = (
     <Switch>
       <Route path="/sign-in">
-        <Link to="/sign-up" className="link header__link">
-          Регистрация
-        </Link>
+        <Link to="/sign-up" className="link header__link">Регистрация</Link>
       </Route>
       <Route path="/sign-up">
-        <Link to="/sign-in" className="link header__link">
-          Войти
-        </Link>
+        <Link to="/sign-in" className="link header__link">Войти</Link>
       </Route>
     </Switch>
   );
 
-  const headerMenu = (
-    <div className={`header-menu ${isMenuOpen ? "header-menu_show" : ""}`}>
-      <p className="header-menu__user-email">{userEmail}</p>
-      <button
-        className="header-menu__logout-button"
-        onClick={handleSignOutClick}
-      >
-        Выйти
-      </button>
-    </div>
-  );
-
-  function openMenu() {
-    setMenuOpen(!isMenuOpen);
-  }
-
-  function handleSignOutClick() {
-    setMenuOpen(false);
-    onSignOut();
-  }
-
   return (
     <header className="header">
-      {loggedIn && headerMenu}
-
-      <div className="header__content">
-        <Link className="header__logo" to="/">
-          <img src={logo} alt="Логотип Мэсто" className="header__logo" />
-        </Link>
-        {!loggedIn && headerLink}
-        {loggedIn && (
-          <button
-            className={`header__menu-button ${
-              isMenuOpen ? "header__menu-button_close" : ""
-            }`}
-            onClick={openMenu}
-          />
-        )}
+      <img src={logo} alt="Логотип Мэсто" className="header__logo" />
+      <div className="header__contact">
+        { loggedIn && <p className="header__email">{userEmail} </p> }
+        { !loggedIn && headerLink }
+        { loggedIn && <Link to="/#" onClick={onSignOut} className="header__exit link"> Выйти
+        </Link> }
       </div>
     </header>
   );

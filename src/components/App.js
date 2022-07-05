@@ -111,11 +111,11 @@ function App() {
   }
 
   const handleEditAvatarClick = () => {
-    setIsEditProfilePopupOpen(true); //переменные состояния, отвечающие за видимость
+    setIsEditAvatarPopupOpen(true); //переменные состояния, отвечающие за видимость
   };
 
   const handleEditProfileClick = () => {
-    setIsEditAvatarPopupOpen(true); //переменные состояния, отвечающие за видимость
+    setIsEditProfilePopupOpen(true); //переменные состояния, отвечающие за видимость
   };
 
   const handleAddPlaceClick = () => {
@@ -188,35 +188,45 @@ function App() {
   function handleLoginSubmit(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        if (res.token) {
+        if (res.token) {          
           setLoggedIn(true);
           setUserEmail(email);
           history.push("/");
+          console.log("dfdf");
         }
       })
       .catch(() => {
         setRequestCompleted(false);
         setTooltipPopupOpen(true);
+        console.log("логин");
       });
   }
 
   function handleRegisterSubmit(email, password) {
     Auth.register(email, password)
       .then((res) => {
-        if (res.statusCode !== "400") {
+        if (res.data) {
+          setLoggedIn(true);
           setRequestCompleted(true);
           setTooltipPopupOpen(true);
+         
+
           setTimeout(() => {
+            history.push("/");
             setTooltipPopupOpen(false);
-            handleLoginSubmit(email, password);
-          }, 3000);
+            // handleLoginSubmit(email, password);
+            console.log("wwwww");
+
+          }, 1500);
         }
       })
       .catch(() => {
         setRequestCompleted(false);
         setTooltipPopupOpen(true);
+        console.log("регистрация");
       });
   }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -227,7 +237,6 @@ function App() {
           <Header onSignOut={handleSignOutClick} />
 
           <main>
-            <Link to="/sign-up"></Link>
             <Switch>
               <ProtectedRoute
                 exact
@@ -263,83 +272,11 @@ function App() {
 
           <Footer />
 
-          {/* <PopupWithForm
-        title="Редактировать профиль"
-        name="edit-profile"
-        button="Сохранить"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="popup__profile">
-          <label className="popup__field">
-            <input
-              id="firstname"
-              type="text"
-              name="firstname"
-              placeholder="Введите имя"
-              className="popup__input popup__input_type_name"
-              required
-              minLength="2"
-              maxLength="40"
-            />
-            <span className="firstname-error popup__error-message"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              id="proffesion"
-              type="text"
-              name="proffesion"
-              placeholder="Введите вид деятельности"
-              className="popup__input popup__input_type_job"
-              required
-              minLength="2"
-              maxLength="200"
-            />
-            <span className="proffesion-error popup__error-message"></span>
-          </label>
-        </fieldset>
-      </PopupWithForm> */}
-
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-
-          {/* <PopupWithForm
-        title="Новое место"
-        name="place"
-        button="Сохранить"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="popup__profile">
-          <label className="popup__field">
-            <input
-              id="card"
-              type="text"
-              name="name"
-              placeholder="Название"
-              className="popup__input popup__input_type_card"
-              required
-              minLength="2"
-              maxLength="30"
-            />
-            <span className="card-error popup__error-message"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              id="link"
-              type="url"
-              name="link"
-              placeholder="Ссылка на картинку"
-              className="popup__input popup__input_type_link"
-              required
-            />
-            <span className="link-error popup__error-message"></span>
-          </label>
-        </fieldset>
-      </PopupWithForm> */}
 
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
@@ -354,27 +291,6 @@ function App() {
             onClose={closeAllPopups}
           ></PopupWithForm>
 
-          {/* <PopupWithForm
-        title="Обновить аватар"
-        name="edit-profile"
-        button="Сохранить"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <fieldset className="popup__profile">
-          <label className="popup__field">
-            <input
-              id="avatar"
-              type="url"
-              name="avatar"
-              placeholder="Ссылка на картинку"
-              className="popup__input popup__input_type_link"
-              required
-            />
-            <span className="avatar-error popup__error-message"></span>
-          </label>
-        </fieldset>
-      </PopupWithForm> */}
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
@@ -382,10 +298,6 @@ function App() {
           />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups}></ImagePopup>
-
-          {/* <Login /> */}
-
-          {/* <Register /> */}
 
           <InfoTooltip
             isOpen={isTooltipPopupOpen}

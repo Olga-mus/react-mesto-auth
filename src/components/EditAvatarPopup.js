@@ -1,8 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
+  const { isOpen, onClose } = props;
   const avatarRef = useRef("");
+
+  const [name, setName] = useState("");
+  const [link, setLink] = useState("");
+
+  // useEffect, который будет реагировать на пропс isOpen и очищать значения в инпутах при открытии попала
+    useEffect(() => {
+      setName('');
+      setLink('');
+    }, [isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -13,14 +23,13 @@ function EditAvatarPopup(props) {
     });
   }
 
+
   return (
     <PopupWithForm
       title="Обновить аватар"
       name="edit-avatar"
       button="Сохранить"
       onSubmit={handleSubmit}
-      // isOpen={isEditAvatarPopupOpen}
-      // onClose={closeAllPopups}
       isOpen={props.isOpen}
       onClose={props.onClose}
     >

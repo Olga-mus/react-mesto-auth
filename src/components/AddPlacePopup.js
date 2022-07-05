@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import { useState, useEffect } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
+  const { isOpen, onAddCard, onClose } = props;
+  
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+
+  // useEffect, который будет реагировать на пропс isOpen и очищать значения в инпутах при открытии попала
+    useEffect(() => {
+      setName('');
+      setLink('');
+    }, [isOpen]);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -26,8 +34,6 @@ function AddPlacePopup(props) {
       title="Новое место"
       name="place"
       button="Сохранить"
-      // isOpen={isAddPlacePopupOpen}
-      // onClose={closeAllPopups}
       onSubmit={handleSubmit}
       isOpen={props.isOpen}
       onClose={props.onClose}
