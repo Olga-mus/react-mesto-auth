@@ -192,13 +192,11 @@ function App() {
           setLoggedIn(true);
           setUserEmail(email);
           history.push("/");
-          console.log("dfdf");
         }
       })
       .catch(() => {
         setRequestCompleted(false);
         setTooltipPopupOpen(true);
-        console.log("логин");
       });
   }
 
@@ -215,15 +213,12 @@ function App() {
             history.push("/");
             setTooltipPopupOpen(false);
             // handleLoginSubmit(email, password);
-            console.log("wwwww");
-
           }, 1500);
         }
       })
       .catch(() => {
         setRequestCompleted(false);
         setTooltipPopupOpen(true);
-        console.log("регистрация");
       });
   }
 
