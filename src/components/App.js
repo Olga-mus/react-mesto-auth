@@ -188,7 +188,7 @@ function App() {
   function handleLoginSubmit(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        if (res.token) {          
+        if (res.token) {
           setLoggedIn(true);
           setUserEmail(email);
           history.push("/");
@@ -207,7 +207,6 @@ function App() {
           setLoggedIn(true);
           setRequestCompleted(true);
           setTooltipPopupOpen(true);
-         
 
           setTimeout(() => {
             history.push("/");
@@ -221,7 +220,6 @@ function App() {
         setTooltipPopupOpen(true);
       });
   }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
