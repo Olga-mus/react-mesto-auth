@@ -209,7 +209,7 @@ function App() {
           setTooltipPopupOpen(true);
 
           setTimeout(() => {
-            history.push("/");
+            history.push("/sign-in");
             setTooltipPopupOpen(false);
             // handleLoginSubmit(email, password);
           }, 1500);

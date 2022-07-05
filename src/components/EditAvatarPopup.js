@@ -5,14 +5,9 @@ function EditAvatarPopup(props) {
   const { isOpen, onClose } = props;
   const avatarRef = useRef("");
 
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
-
-  // useEffect, который будет реагировать на пропс isOpen и очищать значения в инпутах при открытии попала
-    useEffect(() => {
-      setName('');
-      setLink('');
-    }, [isOpen]);
+  useEffect(() => {
+    avatarRef.current.value = ''; 
+  }, [isOpen]); 
 
   function handleSubmit(e) {
     e.preventDefault();

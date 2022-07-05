@@ -23,7 +23,6 @@ function EditProfilePopup(props) {
       name,
       about: description,
     });
-    console.log(description);
   }
 
   function handleChangeName(e) {
