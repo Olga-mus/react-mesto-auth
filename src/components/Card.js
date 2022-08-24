@@ -56,7 +56,7 @@ function Card({ onCardClick, onCardLike, onCardDelete, card }) {
       ></button>
       {/* <button className="element__button-delete"> */}
       {/* <img className="element__delete" src="<%=require('./images/element-delete.svg')%>" alt="Удалить"/> */}{" "}
-      */}
+      *///
       {/* {/* <img className="element__delete" style={{ backgroundImage: `url(${card})` }}alt="Удалить"/> */}
       {/* </button> */}
       <button className={cardDeleteButtonClassName} onClick={handleDeleteClick}>

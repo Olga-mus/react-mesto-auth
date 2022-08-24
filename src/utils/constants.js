@@ -61,6 +61,7 @@ const TEXT_SAVE_PROCESSING = "Сохранение...";
 const TEXT_DELETE = "Да"
 const TEXT_DELETE_PROCESSING = "Удаление...";
 
-const DOMAIN = 'https://api.tritonanta.nomoredomains.sbs';
+// const DOMAIN = 'https://api.tritonanta.nomoredomains.sbs';
+const DOMAIN = 'https://localhost:5000';
 
 export default DOMAIN;

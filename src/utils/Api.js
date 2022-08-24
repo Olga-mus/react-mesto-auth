@@ -122,11 +122,10 @@ class Api {
 //     authorization: "67913aac-b670-497b-b2dd-e50632dce1ee",
 //     "Content-Type": "application/json",
 //   },
-// });
+// });//
 
 
 export const api = new Api(DOMAIN);
 // export default api;
 
 // export const api = new Api(DOMAIN);
-
