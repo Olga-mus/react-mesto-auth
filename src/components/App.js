@@ -53,16 +53,27 @@ function App() {
   function handleSignOutClick() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
-    history.push("/sign-in");
+    history.push("/signin");
   }
 
   useEffect(() => {
     handleTokenCheck();
   }, []);
 
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     Promise.all([api.getProfile(), api.getInitialCards()])
+  //       .then(([data, cards]) => {
+  //         setCards(cards);
+  //         setCurrentUser(data);
+  //       })
+  //       .catch(console.error);
+  //   }
+  // }, [loggedIn]);
+
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getProfile(), api.getInitialCards()])
+      Promise.all([api.getProfile(localStorage.getItem("jwt")), api.getInitialCards(localStorage.getItem("jwt"))])
         .then(([data, cards]) => {
           setCards(cards);
           setCurrentUser(data);
@@ -71,9 +82,21 @@ function App() {
     }
   }, [loggedIn]);
 
+
+  // React.useEffect(() => {
+  //   api
+  //     .getProfile()
+  //     .then((res) => {
+  //       setCurrentUser(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   React.useEffect(() => {
     api
-      .getProfile()
+      .getProfile(localStorage.getItem("jwt"))
       .then((res) => {
         setCurrentUser(res);
       })
@@ -82,9 +105,20 @@ function App() {
       });
   }, []);
 
+  // React.useEffect(() => {
+  //   api
+  //     .getInitialCards()
+  //     .then((res) => {
+  //       setCards(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   React.useEffect(() => {
     api
-      .getInitialCards()
+      .getInitialCards(localStorage.getItem("jwt"))
       .then((res) => {
         setCards(res);
       })
@@ -109,7 +143,7 @@ function App() {
         console.log(err);
       });
   }
-
+  
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true); //переменные состояния, отвечающие за видимость
   };
@@ -122,9 +156,23 @@ function App() {
     setIsAddPlacePopupOpen(true); //переменные состояния, отвечающие за видимость
   };
 
+  // function handleCardDelete(card) {
+  //   api
+  //     .deleteCard(card._id)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setCards((prevState) =>
+  //         prevState.filter((c) => c._id !== card._id && c)
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
   function handleCardDelete(card) {
     api
-      .deleteCard(card._id)
+      .deleteCard(card._id, localStorage.getItem("jwt"))
       .then((res) => {
         console.log(res);
         setCards((prevState) =>
@@ -140,9 +188,21 @@ function App() {
     setSelectedCard(card);
   };
 
+  // const handleAddPlaceSubmit = (card) => {
+  //   api
+  //     .addCard(card)
+  //     .then((newCard) => {
+  //       setCards([newCard, ...cards]);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const handleAddPlaceSubmit = (card) => {
     api
-      .addCard(card)
+      .addCard(card, localStorage.getItem("jwt"))
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -161,9 +221,21 @@ function App() {
     setTooltipPopupOpen(false);
   };
 
+  // const handleUpdateUser = (data) => {
+  //   api
+  //     .editProfile(data)
+  //     .then((res) => {
+  //       setCurrentUser(res);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const handleUpdateUser = (data) => {
     api
-      .editProfile(data)
+      .editProfile(data, localStorage.getItem("jwt"))
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -173,9 +245,21 @@ function App() {
       });
   };
 
+  // function handleUpdateAvatar({ avatar }) {
+  //   api
+  //     .updateAvatar(avatar)
+  //     .then((res) => {
+  //       setCurrentUser(res);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
   function handleUpdateAvatar({ avatar }) {
     api
-      .updateAvatar(avatar)
+      .updateAvatar(avatar, localStorage.getItem("jwt"))
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -209,7 +293,7 @@ function App() {
           setTooltipPopupOpen(true);
 
           setTimeout(() => {
-            history.push("/sign-in");
+            history.push("/signin");
             setTooltipPopupOpen(false);
             // handleLoginSubmit(email, password);
           }, 1500);
@@ -245,16 +329,16 @@ function App() {
                 component={Main}
               />
 
-              <Route path="/sign-up">
+              <Route path="/signup">
                 <Register onRegister={handleRegisterSubmit} />
               </Route>
 
-              <Route path="/sign-in">
+              <Route path="/signin">
                 <Login onLogin={handleLoginSubmit} />
               </Route>
 
               <Route>
-                <Redirect to={`${loggedIn ? "/" : "/sign-in"}`} />
+                <Redirect to={`${loggedIn ? "/" : "/signin"}`} />
               </Route>
 
               <Route path="*">
