@@ -2,7 +2,7 @@
 // import avatar from '../images/profile-avatar.jpg';
 import React from "react";
 import { useState, useEffect } from "react";
-import { Route, Switch, Link, Redirect, useHistory } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -16,13 +16,14 @@ import PageNotFound from "./PageNotFound";
 import Register from "./Register";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
-import Auth from "../utils/Auth.js";
+import { auth } from "../utils/Auth.js";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
+  const token = localStorage.getItem('jwt');
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -35,63 +36,41 @@ function App() {
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
 
-  function handleTokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      Auth.checkToken(jwt)
-        .then((data) => {
-          if (data.email) {
-            setUserEmail(data.email);
-            setLoggedIn(true);
-            history.push("/");
-          }
-        })
-        .catch(console.error);
-    }
-  }
-
   function handleSignOutClick() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
-    history.push("/sign-in");
+    history.push("/signin");
   }
 
   useEffect(() => {
-    handleTokenCheck();
-  }, []);
+    const token = localStorage.getItem('jwt')
+    console.log(token)
+
+    if (token) {
+      auth.checkToken(token)
+        .then((data) => {
+          setLoggedIn(true)
+          setUserEmail(data.data.email)
+          history.push('/')
+        })
+        .catch(err => console.log(err))
+    }
+  }, [history])
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getProfile(), api.getInitialCards()])
-        .then(([data, cards]) => {
-          setCards(cards);
-          setCurrentUser(data);
+      // вызываем получение данных ...
+      Promise.all([api.getProfile(token), api.getInitialCards(token)])
+        .then(resData => {
+          const [userData, cardList] = resData;
+          setCurrentUser(userData.data);
+          setCards(cardList.data.reverse());
         })
-        .catch(console.error);
+        .catch((err) => {
+          console.log(err);
+        })
     }
-  }, [loggedIn]);
-
-  React.useEffect(() => {
-    api
-      .getProfile()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  }, [loggedIn, token]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -186,7 +165,7 @@ function App() {
   }
 
   function handleLoginSubmit(email, password) {
-    Auth.authorize(email, password)
+    auth.authorize(email, password)
       .then((res) => {
         if (res.token) {
           setLoggedIn(true);
@@ -201,15 +180,15 @@ function App() {
   }
 
   function handleRegisterSubmit(email, password) {
-    Auth.register(email, password)
+    auth.register(email, password)
       .then((res) => {
-        if (res.data) {
+        if (res) {
           setLoggedIn(true);
           setRequestCompleted(true);
           setTooltipPopupOpen(true);
 
           setTimeout(() => {
-            history.push("/sign-in");
+            history.push("/signin");
             setTooltipPopupOpen(false);
             // handleLoginSubmit(email, password);
           }, 1500);
@@ -245,16 +224,16 @@ function App() {
                 component={Main}
               />
 
-              <Route path="/sign-up">
+              <Route path="/signup">
                 <Register onRegister={handleRegisterSubmit} />
               </Route>
 
-              <Route path="/sign-in">
+              <Route path="/signin">
                 <Login onLogin={handleLoginSubmit} />
               </Route>
 
               <Route>
-                <Redirect to={`${loggedIn ? "/" : "/sign-in"}`} />
+                <Redirect to={`${loggedIn ? "/" : "/signin"}`} />
               </Route>
 
               <Route path="*">
